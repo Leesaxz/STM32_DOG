@@ -139,7 +139,7 @@ void MX_FREERTOS_Init(void) {
   sensorQueueHandle = osMessageQueueNew (10, sizeof(MPU6050_Data*), &sensorQueue_attributes);
 
   /* creation of voiceQueue */
-  voiceQueueHandle = osMessageQueueNew (16, sizeof(uint32_t), &voiceQueue_attributes);
+  voiceQueueHandle = osMessageQueueNew (16, sizeof(uint16_t), &voiceQueue_attributes);
 
   /* creation of BluetoothQueue */
   BluetoothQueueHandle = osMessageQueueNew (16, sizeof(uint32_t), &BluetoothQueue_attributes);
