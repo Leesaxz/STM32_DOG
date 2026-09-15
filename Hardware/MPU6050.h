@@ -5,7 +5,7 @@
 #include "MPU6050.h"
 #include "MyIIC.h"
 
-static MyIIC_Handle MPU6050_IIC_Handle;
+
 
 #define MPU6050_W_SCL(x)        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, (GPIO_PinState)(x))
 #define MPU6050_W_SDA(x)        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, (GPIO_PinState)(x))

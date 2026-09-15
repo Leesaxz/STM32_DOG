@@ -32,12 +32,18 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cmsis_os2.h"
+#include "FreeRTOS.h"
 
 #include "DogActions.h"
 #include "MyIIC.h"
 #include "OLED.h"
 #include "MPU6050.h"
 #include "MPU6050Type.h"
+
+#define Voice_RXBUFF_SIZE 1
+#define BLE_RXBUFF_SIZE 128
+extern uint8_t DMAVoice_RXBUFF[Voice_RXBUFF_SIZE];
+extern uint8_t DMABLE_RXBUFF[BLE_RXBUFF_SIZE];
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -66,8 +72,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED_PC13_Pin GPIO_PIN_13
-#define LED_PC13_GPIO_Port GPIOC
 #define BLE_TX_Pin GPIO_PIN_2
 #define BLE_TX_GPIO_Port GPIOA
 #define BLE_RX_Pin GPIO_PIN_3
@@ -80,16 +84,14 @@ void Error_Handler(void);
 #define Servo_RL_GPIO_Port GPIOB
 #define Servo_RR_Pin GPIO_PIN_1
 #define Servo_RR_GPIO_Port GPIOB
+#define Voice_TX_Pin GPIO_PIN_10
+#define Voice_TX_GPIO_Port GPIOB
+#define Voice_RX_Pin GPIO_PIN_11
+#define Voice_RX_GPIO_Port GPIOB
 #define MOU6050_SCL_Pin GPIO_PIN_12
 #define MOU6050_SCL_GPIO_Port GPIOB
 #define MPU6050_SDA_Pin GPIO_PIN_13
 #define MPU6050_SDA_GPIO_Port GPIOB
-#define Data_L_Pin GPIO_PIN_14
-#define Data_L_GPIO_Port GPIOB
-#define Data_M_Pin GPIO_PIN_15
-#define Data_M_GPIO_Port GPIOB
-#define Data_H_Pin GPIO_PIN_8
-#define Data_H_GPIO_Port GPIOA
 #define OLED_SCL_Pin GPIO_PIN_6
 #define OLED_SCL_GPIO_Port GPIOB
 #define OLED_SDA_Pin GPIO_PIN_7

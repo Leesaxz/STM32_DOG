@@ -24,14 +24,14 @@
 // ============================================================
 // 动作模式
 // ============================================================
-#define DOG_STOP    0
-#define DOG_STAND   1
-#define DOG_SIT     2
-#define DOG_DOWN    3
-#define DOG_FORWARD 4
-#define DOG_BACK    5
-#define DOG_LEFT    6
-#define DOG_RIGHT   7
+#define DOG_STOP    '0'
+#define DOG_STAND   '1'
+#define DOG_SIT     '2'
+#define DOG_DOWN    '3'
+#define DOG_FORWARD '4'
+#define DOG_BACK    '5'
+#define DOG_LEFT    '6'
+#define DOG_RIGHT   '7'
 
 // ============================================================
 // 外部控制变量

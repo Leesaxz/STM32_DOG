@@ -1,13 +1,13 @@
 #include "DogActions.h"
-#include "cmsis_os.h"
+#include "cmsis_os2.h"
 
 // ============================================================
 // 全局变量
 // ============================================================
 uint8_t Dog_Mode = DOG_STOP;
-uint8_t Dog_Continuous = 0;
-uint16_t Dog_Speed = 200;
-uint16_t Dog_Repeat = 3;
+#define  Dog_Continuous     0
+#define  Dog_Speed          200
+#define  Dog_Repeat         3
 
 static uint16_t repeat_cnt = 0;
 
@@ -36,6 +36,7 @@ void Dog_Init(void)
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
+
 
     Dog_Stand();
     osDelay(500);

@@ -2,6 +2,8 @@
 #include "MPU6050.h"
 #include "MPU6050_Reg.h"
 
+static MyIIC_Handle MPU6050_IIC_Handle;
+
 void MPU6050_Init(void)
 {
     MPU6050_IIC_Handle.W_SCL = MPU6050_SetSCL;
