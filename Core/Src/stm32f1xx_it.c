@@ -251,26 +251,7 @@ void USART3_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
-{
-  if (huart->Instance == USART3)
-  {
-    if (Size == 1)
-    {
-        uint8_t cmd = DMAVoice_RXBUFF[0];  // ASCII → 数字
-        if (cmd <= '7' && cmd >= '0')
-        {
-            osMessageQueuePut(action0QueueHandle, &cmd, 0, 0);
-        }
-    }
-    HAL_UARTEx_ReceiveToIdle_DMA(&huart3, DMAVoice_RXBUFF, Voice_RXBUFF_SIZE);
-  }
 
-  if (huart->Instance == USART2)
-  {
-
-  }
-}
 
 
 

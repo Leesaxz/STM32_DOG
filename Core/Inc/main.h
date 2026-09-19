@@ -41,7 +41,7 @@ extern "C" {
 #include "MPU6050Type.h"
 
 #define Voice_RXBUFF_SIZE 1
-#define BLE_RXBUFF_SIZE 128
+#define BLE_RXBUFF_SIZE 16
 extern uint8_t DMAVoice_RXBUFF[Voice_RXBUFF_SIZE];
 extern uint8_t DMABLE_RXBUFF[BLE_RXBUFF_SIZE];
 /* USER CODE END Includes */
@@ -57,6 +57,7 @@ extern osMessageQueueId_t action0QueueHandle;
 extern osMessageQueueId_t voiceQueueHandle;
 extern osMessageQueueId_t sensorQueueHandle;
 extern osMessageQueueId_t BluetoothQueueHandle;
+extern osMutexId_t myMutex01Handle;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
