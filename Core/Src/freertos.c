@@ -69,12 +69,19 @@ const osThreadAttr_t SensorTask_attributes = {
   .stack_size = 256 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
-/* Definitions for CommandTask */
-osThreadId_t CommandTaskHandle;
-const osThreadAttr_t CommandTask_attributes = {
-  .name = "CommandTask",
+/* Definitions for BluetoothComman */
+osThreadId_t BluetoothCommanHandle;
+const osThreadAttr_t BluetoothComman_attributes = {
+  .name = "BluetoothComman",
   .stack_size = 256 * 4,
   .priority = (osPriority_t) osPriorityHigh,
+};
+/* Definitions for VoiceCommandTas */
+osThreadId_t VoiceCommandTasHandle;
+const osThreadAttr_t VoiceCommandTas_attributes = {
+  .name = "VoiceCommandTas",
+  .stack_size = 256 * 4,
+  .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for action0Queue */
 osMessageQueueId_t action0QueueHandle;
@@ -96,10 +103,30 @@ osMessageQueueId_t BluetoothQueueHandle;
 const osMessageQueueAttr_t BluetoothQueue_attributes = {
   .name = "BluetoothQueue"
 };
-/* Definitions for myMutex01 */
-osMutexId_t myMutex01Handle;
-const osMutexAttr_t myMutex01_attributes = {
-  .name = "myMutex01"
+/* Definitions for BleTxMutex */
+osMutexId_t BleTxMutexHandle;
+const osMutexAttr_t BleTxMutex_attributes = {
+  .name = "BleTxMutex"
+};
+/* Definitions for RxBleSem */
+osSemaphoreId_t RxBleSemHandle;
+const osSemaphoreAttr_t RxBleSem_attributes = {
+  .name = "RxBleSem"
+};
+/* Definitions for RxVoiceSem */
+osSemaphoreId_t RxVoiceSemHandle;
+const osSemaphoreAttr_t RxVoiceSem_attributes = {
+  .name = "RxVoiceSem"
+};
+/* Definitions for TxBleSem */
+osSemaphoreId_t TxBleSemHandle;
+const osSemaphoreAttr_t TxBleSem_attributes = {
+  .name = "TxBleSem"
+};
+/* Definitions for TxVoiceSem */
+osSemaphoreId_t TxVoiceSemHandle;
+const osSemaphoreAttr_t TxVoiceSem_attributes = {
+  .name = "TxVoiceSem"
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -110,7 +137,8 @@ const osMutexAttr_t myMutex01_attributes = {
 void StartActionTask(void *argument);
 extern void StartOLEDTask(void *argument);
 extern void StartSensorTask(void *argument);
-extern void StartCommandTask(void *argument);
+extern void StartBluetoothCommandTask(void *argument);
+extern void StartVoiceCommandTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -124,12 +152,25 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE END Init */
   /* Create the mutex(es) */
-  /* creation of myMutex01 */
-  myMutex01Handle = osMutexNew(&myMutex01_attributes);
+  /* creation of BleTxMutex */
+  BleTxMutexHandle = osMutexNew(&BleTxMutex_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
+
+  /* Create the semaphores(s) */
+  /* creation of RxBleSem */
+  RxBleSemHandle = osSemaphoreNew(1, 0, &RxBleSem_attributes);
+
+  /* creation of RxVoiceSem */
+  RxVoiceSemHandle = osSemaphoreNew(1, 0, &RxVoiceSem_attributes);
+
+  /* creation of TxBleSem */
+  TxBleSemHandle = osSemaphoreNew(1, 0, &TxBleSem_attributes);
+
+  /* creation of TxVoiceSem */
+  TxVoiceSemHandle = osSemaphoreNew(1, 0, &TxVoiceSem_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -166,8 +207,11 @@ void MX_FREERTOS_Init(void) {
   /* creation of SensorTask */
   SensorTaskHandle = osThreadNew(StartSensorTask, NULL, &SensorTask_attributes);
 
-  /* creation of CommandTask */
-  CommandTaskHandle = osThreadNew(StartCommandTask, NULL, &CommandTask_attributes);
+  /* creation of BluetoothComman */
+  BluetoothCommanHandle = osThreadNew(StartBluetoothCommandTask, NULL, &BluetoothComman_attributes);
+
+  /* creation of VoiceCommandTas */
+  VoiceCommandTasHandle = osThreadNew(StartVoiceCommandTask, NULL, &VoiceCommandTas_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

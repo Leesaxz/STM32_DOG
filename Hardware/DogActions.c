@@ -5,6 +5,8 @@
 // 全局变量
 // ============================================================
 uint8_t Dog_Mode = DOG_STOP;
+volatile uint8_t Dog_DisplayMode = DOG_STAND;
+volatile uint32_t Dog_DisplayModeTick = 0;
 #define  Dog_Continuous     0
 #define  Dog_Speed          200
 #define  Dog_Repeat         3
@@ -18,6 +20,12 @@ static inline void L1(uint16_t v) { __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1,
 static inline void L2(uint16_t v) { __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, v); }
 static inline void L3(uint16_t v) { __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, v); }
 static inline void L4(uint16_t v) { __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, v); }
+
+static void Dog_SetDisplayMode(uint8_t mode)
+{
+    Dog_DisplayMode = mode;
+    Dog_DisplayModeTick = osKernelGetTickCount();
+}
 
 static void AllLegs(uint16_t left, uint16_t right)
 {
@@ -41,6 +49,7 @@ void Dog_Init(void)
     Dog_Stand();
     osDelay(500);
     Dog_Mode = DOG_STAND;
+    Dog_SetDisplayMode(DOG_STAND);
 }
 
 // ============================================================
@@ -123,9 +132,16 @@ void Dog_Forward(void)
         {
             Dog_Stand();
             Dog_Mode = DOG_STAND;
+            Dog_SetDisplayMode(DOG_STAND);
             break;
         }
-        if (osMessageQueueGet(action0QueueHandle, (&Dog_Mode), 0, 0) == osOK) return;
+        uint8_t new_mode;
+        if (osMessageQueueGet(action0QueueHandle, &new_mode, 0, 0) == osOK)
+        {
+            Dog_Mode = new_mode;
+            Dog_SetDisplayMode(new_mode);
+            return;
+        }
     }
 }
 
@@ -188,9 +204,16 @@ void Dog_Backward(void)
         {
             Dog_Stand();
             Dog_Mode = DOG_STAND;
+            Dog_SetDisplayMode(DOG_STAND);
             break;
         }
-        if (osMessageQueueGet(action0QueueHandle, (&Dog_Mode), 0, 0) == osOK) return;
+        uint8_t new_mode;
+        if (osMessageQueueGet(action0QueueHandle, &new_mode, 0, 0) == osOK)
+        {
+            Dog_Mode = new_mode;
+            Dog_SetDisplayMode(new_mode);
+            return;
+        }
     }
 }
 
@@ -224,9 +247,16 @@ void Dog_TurnLeft(void)
         {
             Dog_Stand();
             Dog_Mode = DOG_STAND;
+            Dog_SetDisplayMode(DOG_STAND);
             break;
         }
-        if (osMessageQueueGet(action0QueueHandle, (&Dog_Mode), 0, 0) == osOK) return;
+        uint8_t new_mode;
+        if (osMessageQueueGet(action0QueueHandle, &new_mode, 0, 0) == osOK)
+        {
+            Dog_Mode = new_mode;
+            Dog_SetDisplayMode(new_mode);
+            return;
+        }
     }
 }
 
@@ -260,9 +290,16 @@ void Dog_TurnRight(void)
         {
             Dog_Stand();
             Dog_Mode = DOG_STAND;
+            Dog_SetDisplayMode(DOG_STAND);
             break;
         }
-        if (osMessageQueueGet(action0QueueHandle, (&Dog_Mode), 0, 0) == osOK) return;
+        uint8_t new_mode;
+        if (osMessageQueueGet(action0QueueHandle, &new_mode, 0, 0) == osOK)
+        {
+            Dog_Mode = new_mode;
+            Dog_SetDisplayMode(new_mode);
+            return;
+        }
     }
 }
 
@@ -275,6 +312,7 @@ void Dog_Update(void)
     if (osMessageQueueGet(action0QueueHandle, &new_mode, 0, 0) == osOK)
     {
         Dog_Mode = new_mode;
+        Dog_SetDisplayMode(new_mode);
     }
 
     switch(Dog_Mode)

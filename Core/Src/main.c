@@ -98,8 +98,6 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   /* Onboard LED (PC13) used as activity indicator, active-low on Blue Pill */
-  HAL_UARTEx_ReceiveToIdle_DMA(&huart3,DMAVoice_RXBUFF,Voice_RXBUFF_SIZE);
-  HAL_UARTEx_ReceiveToIdle_DMA(&huart2,DMABLE_RXBUFF,BLE_RXBUFF_SIZE);
 
   /* USER CODE END 2 */
 

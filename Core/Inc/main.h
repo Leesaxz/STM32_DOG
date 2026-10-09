@@ -40,10 +40,7 @@ extern "C" {
 #include "MPU6050.h"
 #include "MPU6050Type.h"
 
-#define Voice_RXBUFF_SIZE 1
-#define BLE_RXBUFF_SIZE 16
-extern uint8_t DMAVoice_RXBUFF[Voice_RXBUFF_SIZE];
-extern uint8_t DMABLE_RXBUFF[BLE_RXBUFF_SIZE];
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -57,7 +54,12 @@ extern osMessageQueueId_t action0QueueHandle;
 extern osMessageQueueId_t voiceQueueHandle;
 extern osMessageQueueId_t sensorQueueHandle;
 extern osMessageQueueId_t BluetoothQueueHandle;
-extern osMutexId_t myMutex01Handle;
+extern osMessageQueueId_t ble_raw_queueHandle;
+extern osMutexId_t BleTxMutexHandle;
+extern osSemaphoreId_t RxBleSemHandle;
+extern osSemaphoreId_t RxVoiceSemHandle;
+extern osSemaphoreId_t TxBleSemHandle;
+extern osSemaphoreId_t TxVoiceSemHandle;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -69,7 +71,7 @@ extern osMutexId_t myMutex01Handle;
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void OLED_RequestContent(uint8_t contentType, const uint8_t *text, uint16_t length);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -99,7 +101,8 @@ void Error_Handler(void);
 #define OLED_SDA_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+#define OLED_CONTENT_WEATHER 1U
+#define OLED_CONTENT_TIME    2U
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

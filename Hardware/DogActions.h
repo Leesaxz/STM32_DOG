@@ -37,6 +37,8 @@
 // 外部控制变量
 // ============================================================
 extern uint8_t Dog_Mode;         // 当前动作模式
+extern volatile uint8_t Dog_DisplayMode;       // OLED显示的动作模式
+extern volatile uint32_t Dog_DisplayModeTick;  // 显示模式更新时间
 extern uint8_t Dog_Continuous;   // 连续模式 (1=连续, 0=单次)
 extern uint16_t Dog_Speed;       // 速度延迟(ms)
 extern uint16_t Dog_Repeat;      // 重复次数
